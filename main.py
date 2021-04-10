@@ -4,8 +4,33 @@
 # Press Double ⇧ to search everywhere for classes, files, tool windows, actions, and settings.
 
 
-matrix4 = [[1, 2, 3, 4], [5, 6, 7, 8], [9, 10, 11, 12], [13, 14, 15, 16]]
-matrix3 = [[1, 2, 3], [4, 5, 6], [7, 8, 9]]
+A = [[1,3,5,9], 
+     [1,3,1,7],
+     [4,3,9,7],
+     [5,2,0,9]]
+
+X = [[1,2,3],
+    [4 ,5,6]]
+
+Y = [[7,8],
+    [9,10],
+    [11,12]]
+
+def matMultiply(A, B):
+    # multiply from the left: A * B.
+    result = []
+    for i in range(len(A)):
+        rowMat = []
+        for j in range(len(B[i])):
+            index = 0
+            for k in range(len(B)):
+                index += A[i][k] * B[k][j]
+            rowMat.append(index)
+        result.append(rowMat)
+    print(result)
+
+
+
 
 def matReducer(A):
     sum = 0
@@ -23,13 +48,17 @@ def matReducer(A):
                     newMatRow.append(A[i][j])
             if len(newMatRow) > 0:
                 newMat.append(newMatRow)
-        if currentCol % 2 != 0:
-            pivot = -(A[currentRow][currentCol])
-        else:
+        if len(newMat) != 2:
             pivot = A[currentRow][currentCol]
-        sum += pivot * detCalculator(newMat)
-    print(sum)
-
+            if index % 2 != 0:
+                pivot *= -1
+            sum += pivot * matReducer(newMat)
+        else: 
+            pivot = A[currentRow][currentCol]
+            if currentCol % 2 != 0:
+                pivot *= -1
+            sum += pivot * detCalculator(newMat)
+    return sum
 
 def detCalculator(A):
     if len(A) != 2:
@@ -37,8 +66,15 @@ def detCalculator(A):
     else:
         return (A[0][0] * A[1][1]) - (A[0][1] * A[1][0])
 
+def makeUpperTriangular(A):
+    print(A)
+
 # Press the green button in the gutter to run the script.
 if __name__ == '__main__':
-    matReducer(matrix3)
+    print(matReducer(A))
+    if matReducer(A) != 0:
+        matMultiply(X,Y)
+    else: print("Use LU")
+
 
 
