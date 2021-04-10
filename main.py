@@ -1,9 +1,3 @@
-# This is a sample Python script.
-
-# Press ⌃R to execute it or replace it with your code.
-# Press Double ⇧ to search everywhere for classes, files, tool windows, actions, and settings.
-
-
 A = [[1,3,5,9], 
      [1,3,1,7],
      [4,3,9,7],
@@ -28,9 +22,6 @@ def matMultiply(A, B):
             rowMat.append(index)
         result.append(rowMat)
     print(result)
-
-
-
 
 def matReducer(A):
     sum = 0
@@ -67,7 +58,7 @@ def detCalculator(A):
         return (A[0][0] * A[1][1]) - (A[0][1] * A[1][0])
 
 def makeUpperTriangular(A):
-    print(A)
+    print(A) # תדרג יא מניאק
 
 # Press the green button in the gutter to run the script.
 if __name__ == '__main__':
