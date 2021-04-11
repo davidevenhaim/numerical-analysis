@@ -1,15 +1,3 @@
-A = [[1,3,5,9], 
-     [1,3,1,7],
-     [4,3,9,7],
-     [5,2,0,9]]
-
-X = [[1,2,3],
-    [4 ,5,6]]
-
-Y = [[7,8],
-    [9,10],
-    [11,12]]
-
 def matMultiply(A, B):
     # multiply from the left: A * B.
     result = []
@@ -21,9 +9,9 @@ def matMultiply(A, B):
                 index += A[i][k] * B[k][j]
             rowMat.append(index)
         result.append(rowMat)
-    print(result)
+    return result
 
-def matReducer(A):
+def determinant(A):
     sum = 0
     matLen = len(A)
     currentRow = 0
@@ -43,7 +31,7 @@ def matReducer(A):
             pivot = A[currentRow][currentCol]
             if index % 2 != 0:
                 pivot *= -1
-            sum += pivot * matReducer(newMat)
+            sum += pivot * determinant(newMat)
         else: 
             pivot = A[currentRow][currentCol]
             if currentCol % 2 != 0:
@@ -57,15 +45,62 @@ def detCalculator(A):
     else:
         return (A[0][0] * A[1][1]) - (A[0][1] * A[1][0])
 
+def makeIdentityMat(dimension):
+    # Works for square matrix only
+    identityMat = [] 
+    for i in range(dimension):
+        rowMat = []
+        for j in range(dimension):
+            if i == j: rowMat.append(1)
+            else: rowMat.append(0)
+        identityMat.append(rowMat)
+    return identityMat
+
 def makeUpperTriangular(A):
-    print(A) # תדרג יא מניאק
+    dimension = len(A)
+    for i in range(dimension):
+        for j in range(i + 1):
+            # print("[", i, "]", " [", j, "]")
+            if i == j:
+               A = makePivotOne(i, A)
+            else:
+                A = makePivotZero(i, j, A)
+    return A
 
-# Press the green button in the gutter to run the script.
-if __name__ == '__main__':
-    print(matReducer(A))
-    if matReducer(A) != 0:
-        matMultiply(X,Y)
-    else: print("Use LU")
+def makePivotZero(i, j, A):
+    if A[j][j] == 0:
+        return A
+    I = makeIdentityMat(len(A))
+    I[i][j] = -A[i][j] / A[j][j]
+    return matMultiply(I, A)
+
+def makePivotOne(i, A):
+    if A[i][i] == 0:
+        return A
+    I = makeIdentityMat(len(A))
+    I[i][i] = 1 / A[i][i]
+    return matMultiply(I, A)
+
+def gaussianElimination(A):
+    A = makeUpperTriangular(A)
+    return A
 
 
+def calcMat(A):
+    if len(A) < 4:
+        return gaussianElimination(A)
+    else: 
+        print("Use Lu") 
 
+# _______________________________________________________________
+
+Q = [[1,3,5,9], 
+     [1,3,1,7],
+     [4,3,9,7],
+     [5,2,0,9]]
+
+Z = [[11,3,7],
+     [6.5,12,13],
+     [0,0,9]]
+
+print(calcMat(Z))
