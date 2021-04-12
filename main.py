@@ -1,3 +1,8 @@
+def printMatrix(matrix):
+    for row in matrix:
+            print(row)
+
+
 def matMultiply(A, B):
     # multiply from the left: A * B.
     result = []
@@ -11,50 +16,67 @@ def matMultiply(A, B):
         result.append(rowMat)
     return result
 
-def determinant(A):
-    sum = 0
+
+def detCalculator(A): #it works!!!
     matLen = len(A)
-    currentRow = 0
-    # will calculate det of first row
-    # We assume that its a square matrix
-    for index in range(matLen):
-        newMat = []
-        currentCol = index
-        for i in range(matLen):
-            newMatRow = []
-            for j in range(matLen):
-                if i != currentRow and j != currentCol:
-                    newMatRow.append(A[i][j])
-            if len(newMatRow) > 0:
-                newMat.append(newMatRow)
-        if len(newMat) != 2:
-            pivot = A[currentRow][currentCol]
-            if index % 2 != 0:
-                pivot *= -1
-            sum += pivot * determinant(newMat)
-        else: 
+    if matLen < 2:
+        return None
+    if matLen == 2:
+        return (A[0][0] * A[1][1]) - (A[0][1] * A[1][0])
+    else:
+        sum = 0
+        currentRow = 0
+        # will calculate det of first row
+        # We assume that its a square matrix
+        for currentCol in range(matLen):
+            newMat = [x[:] for x in A]
+            for row in range(matLen):
+                del newMat[row][currentCol]
+            del newMat[currentRow]
             pivot = A[currentRow][currentCol]
             if currentCol % 2 != 0:
                 pivot *= -1
+            printMatrix(newMat)
             sum += pivot * detCalculator(newMat)
-    return sum
+        return sum
 
-def detCalculator(A):
-    if len(A) != 2:
-        return None
-    else:
-        return (A[0][0] * A[1][1]) - (A[0][1] * A[1][0])
 
 def makeIdentityMat(dimension):
     # Works for square matrix only
-    identityMat = [] 
+    identityMat = []
     for i in range(dimension):
         rowMat = []
         for j in range(dimension):
-            if i == j: rowMat.append(1)
-            else: rowMat.append(0)
+            if i == j:
+                rowMat.append(1)
+            else:
+                rowMat.append(0)
         identityMat.append(rowMat)
     return identityMat
+
+
+def inverse(matrix):
+    inverseMatrix = makeIdentityMat(len(matrix))
+    matrixCopy = [x[:] for x in matrix]
+    matrixSize = len(matrix)
+    for row in range(matrixSize):
+        if matrixCopy[row][row] == 0:
+        #for column in range(matrixSize):
+            print("im done for today, C ya tomorrow")
+    return 0
+
+
+
+def norm(matrix):
+    result = 0
+    for row in matrix:
+        currentRowSum = 0
+        for column in matrix[row]:
+            currentRowSum += abs(matrix[row][column])
+        if currentRowSum > result:
+            result = currentRowSum
+    return result
+
 
 def makeUpperTriangular(A):
     dimension = len(A)
@@ -62,10 +84,11 @@ def makeUpperTriangular(A):
         for j in range(i + 1):
             # print("[", i, "]", " [", j, "]")
             if i == j:
-               A = makePivotOne(i, A)
+                A = makePivotOne(i, A)
             else:
                 A = makePivotZero(i, j, A)
     return A
+
 
 def makePivotZero(i, j, A):
     if A[j][j] == 0:
@@ -74,12 +97,14 @@ def makePivotZero(i, j, A):
     I[i][j] = -A[i][j] / A[j][j]
     return matMultiply(I, A)
 
+
 def makePivotOne(i, A):
     if A[i][i] == 0:
         return A
     I = makeIdentityMat(len(A))
     I[i][i] = 1 / A[i][i]
     return matMultiply(I, A)
+
 
 def gaussianElimination(A):
     A = makeUpperTriangular(A)
@@ -89,18 +114,24 @@ def gaussianElimination(A):
 def calcMat(A):
     if len(A) < 4:
         return gaussianElimination(A)
-    else: 
-        print("Use Lu") 
+    else:
+        print("Use Lu")
 
-# _______________________________________________________________
+    # _______________________________________________________________
 
-Q = [[1,3,5,9], 
-     [1,3,1,7],
-     [4,3,9,7],
-     [5,2,0,9]]
 
-Z = [[11,3,7],
-     [6.5,12,13],
-     [0,0,9]]
+Q = [[1, 3, 5, 9],
+     [1, 3, 1, 7],
+     [4, 3, 9, 7],
+     [5, 2, 0, 9]]
 
-print(calcMat(Z))
+Z = [[11, 3, 7],
+     [6.5, 12, 13],
+     [0, 0, 9]]
+
+S = [[1, 3, 2],
+     [2, 6, 4],
+     [1, 0, 3]]
+
+printMatrix(calcMat(Z))
+print(detCalculator(Z))
