@@ -1,9 +1,3 @@
-def startMatrixCalculation(matA, result):
-    if len(matA) < 4:
-        return gaussianElimination(matA, result)
-    else:
-        return LU(matA, result)
-
 def calcAnswer(matA, result):
     n = len(matA)
     vector = [0] * n
@@ -82,6 +76,7 @@ def LU(matA, result):
     dim = len(matA)
     elementaryList = getElementaryList(matA, result)
     X = elementaryListMultiplicate(elementaryList, dim)
+    # printMat(elementaryList)
     return matMultiply(X, result)
 
 def makeIdentityMat(dim):
@@ -157,11 +152,19 @@ def pivoting(matA, result = None):
                 matA[i], matA[j] = matA[j],matA[i]
                 if result != None: 
                     result[i], result[j] = result[j], result[i]
-    return (matA, result)
-
+    if result!= None:
+        return (matA, result)
+    return matA
+        
 def printMat(mat):
     for row in mat:
             print(row)
+
+def startMatrixCalculation(matA, result):
+    if len(matA) < 4:
+        return gaussianElimination(matA, result)
+    else:
+        return LU(matA, result)
 
 # _______________________________________________________________
 
@@ -179,9 +182,8 @@ B = [[11],[5],[4]]
 
 C = [[11],[5],[4], [13]]
 
-S = [[1, 3, 2],
-     [2, 6, 4],
-     [1, 0, 3]]
-
 # print(startMatrixCalculation(A, B))
-print(startMatrixCalculation(Q,C))
+matA, result = makeUpperTriangular(Q, C)
+print(calcAnswer(matA, result))
+
+# makeUpperTriangular(pivoting(Q), C)
