@@ -1,11 +1,25 @@
-def calcMat(matA, B):
+def calcMat(matA, result):
     if len(matA) < 4:
-        return gaussianElimination(matA, B)
+        return gaussianElimination(matA, result)
     else:
         print("Use Lu")
 
-def calcAnswer(matA, matB):
-    return "asaf" + " david"
+def calcAnswer(matA, result):
+    n = len(matA)
+    print(matA)
+    print(result)
+    vector = [0] * n
+    vector[n-1] = result[n-1][0]
+    print(vector)
+    for i in range(n - 2 , -1, -1):
+        vector[i] = result[i][0]
+        for j in range(n - 1, i , -1):
+            if matA[i][j] != 0:
+                vector[i] -= matA[i][j] * vector[j]
+        vector[i] /= matA[i][i]
+    print(matA)
+    print(result)
+    print(vector)
 
 def detCalculator(matA): #it works!!!
     matLen = len(matA)
@@ -32,9 +46,9 @@ def detCalculator(matA): #it works!!!
 
 # def elementryInverse(A):
 
-def gaussianElimination(matA, matB):
-    matA, matB = makeUpperTriangular(matA, matB)
-    x = calcAnswer(matA,matB)
+def gaussianElimination(matA, result):
+    matA, result = makeUpperTriangular(matA, result)
+    x = calcAnswer(matA,result)
     return matA
 
 def inverse(mat):
@@ -47,9 +61,13 @@ def inverse(mat):
             print("im done for today, C ya tomorrow")
     return 0
 
-def LU(matA, matB):
+def LU(matA, result):
     I = makeIdentityMat(len(matA))
-    makeUpperTriangular(pivoting(matA), matB, I)
+    matA , result = pivoting(matA, result)
+    matA, result = makeUpperTriangular(matA, result)
+    calcAnswer(matA, result)
+    # printMat(matA)
+    # print(result)
 
 def makeIdentityMat(dim):
     # Works for square mat only
@@ -114,14 +132,16 @@ def norm(matA):
             result = currentRowSum
     return result
 
-def pivoting(matA):
+def pivoting(matA, result = None):
     # find max pivot in each column
     n = len(matA)
-    for row in range(n):
-        for col in range(row,n):
-            if abs(matA[col][row]) > abs(matA[row][row]):
-                matA[row], matA[col] = matA[col],matA[row]
-    return matA
+    for i in range(n):
+        for j in range(i,n):
+            if abs(matA[j][i]) > abs(matA[i][i]):
+                matA[i], matA[j] = matA[j],matA[i]
+                if result != None: 
+                    result[i], result[j] = result[j], result[i]
+    return (matA, result)
 
 def printMat(mat):
     for row in mat:
@@ -136,8 +156,8 @@ Q = [[1, 3, 5, 9],
      [5, 2, 0, 9]]
 
 A = [[11, 13, 7],
-     [6.5, 12, 3],
-     [13, 0, 9]]
+     [16.5, 12, 3],
+     [13, 20, 9]]
 
 B = [[4],[3],[2]]
 
@@ -145,7 +165,7 @@ S = [[1, 3, 2],
      [2, 6, 4],
      [1, 0, 3]]
 
-print(pivoting(A))
+LU(A, B)
 # print(matMultiply(A, B))
 # print(calcMat(A, B))
 # print(detCalculator(A))
