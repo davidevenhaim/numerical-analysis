@@ -1,25 +1,20 @@
-def calcMat(matA, result):
+def startMatrixCalculation(matA, result):
     if len(matA) < 4:
         return gaussianElimination(matA, result)
     else:
-        print("Use Lu")
+        return LU(matA, result)
 
 def calcAnswer(matA, result):
     n = len(matA)
-    print(matA)
-    print(result)
     vector = [0] * n
     vector[n-1] = result[n-1][0]
-    print(vector)
     for i in range(n - 2 , -1, -1):
         vector[i] = result[i][0]
         for j in range(n - 1, i , -1):
             if matA[i][j] != 0:
                 vector[i] -= matA[i][j] * vector[j]
         vector[i] /= matA[i][i]
-    print(matA)
-    print(result)
-    print(vector)
+    return vector
 
 def detCalculator(matA): #it works!!!
     matLen = len(matA)
@@ -40,34 +35,54 @@ def detCalculator(matA): #it works!!!
             pivot = matA[currentRow][currentCol]
             if currentCol % 2 != 0:
                 pivot *= -1
-            printMatrix(newMat)
             sum += pivot * detCalculator(newMat)
         return sum
 
-# def elementryInverse(A):
+def elementryInverse(matA, i, j = None):
+    if j is None:
+        j = i
+    if matA[i][j] != 1:
+        matA[i][j] = -matA[i][j]
+    return matA
+    
+def elementaryListMultiplicate(elementaryList, dim):
+    X = makeIdentityMat(dim)
+    for i in range(len(elementaryList)):
+        X = matMultiply(X, elementaryList[i])
+    return X
 
 def gaussianElimination(matA, result):
+    matA , result = pivoting(matA, result)
     matA, result = makeUpperTriangular(matA, result)
-    x = calcAnswer(matA,result)
-    return matA
+    return calcAnswer(matA, result)
+
+def getElementaryList(matA, result):
+    elementaryList = []
+    dim = len(matA)
+    for i in range(dim):
+        for j in range(i + 1):
+            elementary = None
+            if i == j:
+                elementary = makePivotOne(i, matA, result, True)
+            else: 
+                elementary = makePivotZero(i, j, matA, result, True)
+            elementaryList.append(elementary)
+    return elementaryList
 
 def inverse(mat):
     inverseMat = makeIdentityMat(len(mat))
     matCopy = [x[:] for x in mat]
     dim = len(mat)
-    for row in range(dim):
-        if matCopy[row][row] == 0:
+    # for row in range(dim):
+        # if matCopy[row][row] == 0:
         #for column in range(dim):
-            print("im done for today, C ya tomorrow")
     return 0
 
 def LU(matA, result):
-    I = makeIdentityMat(len(matA))
-    matA , result = pivoting(matA, result)
-    matA, result = makeUpperTriangular(matA, result)
-    calcAnswer(matA, result)
-    # printMat(matA)
-    # print(result)
+    dim = len(matA)
+    elementaryList = getElementaryList(matA, result)
+    X = elementaryListMultiplicate(elementaryList, dim)
+    return matMultiply(X, result)
 
 def makeIdentityMat(dim):
     # Works for square mat only
@@ -82,32 +97,33 @@ def makeIdentityMat(dim):
         identityMat.append(rowMat)
     return identityMat
 
-def makeUpperTriangular(matA, matB, I = None):
+def makeUpperTriangular(matA, result):
     dim = len(matA)
     for i in range(dim):
         for j in range(i + 1):
-            # print("[", i, "]", " [", j, "]")
             if i == j:
-                matA, matB = makePivotOne(i, matA, matB, I)
+                matA, result = makePivotOne(i, matA, result)
             else:
-                matA, matB = makePivotZero(i, j, matA, matB, I)
-    return (matA, matB)
+                matA, result = makePivotZero(i, j, matA, result)
+    return (matA, result)
 
-def makePivotZero(i, j, matA, matB, I):
+def makePivotZero(i, j, matA, result, LU = False):
     if matA[j][j] == 0:
         return matA
-    if I == None:
-        I = makeIdentityMat(len(matA))
+    I = makeIdentityMat(len(matA))
     I[i][j] = -matA[i][j] / matA[j][j]
-    return (matMultiply(I, matA), matMultiply(I, matB))
+    if LU is True: 
+        return elementryInverse(I, i, j)
+    return (matMultiply(I, matA), matMultiply(I, result))
 
-def makePivotOne(i, matA, matB, I = None):
+def makePivotOne(i, matA, result, LU = False):
     if matA[i][i] == 0:
         return matA
-    if I == None:
-        I = makeIdentityMat(len(matA))
+    I = makeIdentityMat(len(matA))
     I[i][i] = 1 / matA[i][i]
-    return (matMultiply(I, matA), matMultiply(I, matB))
+    if LU is True: 
+        return elementryInverse(I, i)
+    return (matMultiply(I, matA), matMultiply(I, result))
 
 def matMultiply(matA, matB):
     # multiply from the left: A * B.
@@ -151,21 +167,21 @@ def printMat(mat):
 
 
 Q = [[1, 3, 5, 9],
-     [1, 3, 1, 7],
-     [4, 3, 9, 7],
-     [5, 2, 0, 9]]
+     [1, 12, 1, 7],
+     [4, 13, 9, 7],
+     [5, 2, 3, 9]]
 
-A = [[11, 13, 7],
-     [16.5, 12, 3],
-     [13, 20, 9]]
+A = [[1, 11, 3],
+     [6, 4, 5],
+     [1, 8, 9]]
 
-B = [[4],[3],[2]]
+B = [[11],[5],[4]]
+
+C = [[11],[5],[4], [13]]
 
 S = [[1, 3, 2],
      [2, 6, 4],
      [1, 0, 3]]
 
-LU(A, B)
-# print(matMultiply(A, B))
-# print(calcMat(A, B))
-# print(detCalculator(A))
+# print(startMatrixCalculation(A, B))
+print(startMatrixCalculation(Q,C))
