@@ -53,15 +53,15 @@ def gaussianElimination(matA, result):
 def getElementaryList(matA, result):
     elementaryList = []
     dim = len(matA)
-    for i in range(dim):
-        for j in range(i + 1):
+    for j in range(dim):
+        for i in range(j):
+            print("I is: ", i)
+            print("J is: ", j)
             elementary = None
-            if i == j:
-                elementary = makePivotOne(i, matA, result, True)
-            else: 
-                elementary = makePivotZero(i, j, matA, result, True)
-            elementaryList.append(elementary)
-    return elementaryList
+            if i != j:
+                matA,elementary = makePivotZero(j, i, matA, result, True)
+                elementaryList.append(elementary)
+    return (matA, elementaryList)
 
 def inverse(mat):
     inverseMat = makeIdentityMat(len(mat))
@@ -74,10 +74,12 @@ def inverse(mat):
 
 def LU(matA, result):
     dim = len(matA)
-    elementaryList = getElementaryList(matA, result)
-    X = elementaryListMultiplicate(elementaryList, dim)
-    # printMat(elementaryList)
-    return matMultiply(X, result)
+    U, elementaryList =  getElementaryList(matA, result)
+    L = elementaryListMultiplicate(elementaryList, dim)
+    print("U is:")
+    printMat(U)
+    print("L is:")
+    printMat(L)
 
 def makeIdentityMat(dim):
     # Works for square mat only
@@ -108,7 +110,7 @@ def makePivotZero(i, j, matA, result, LU = False):
     I = makeIdentityMat(len(matA))
     I[i][j] = -matA[i][j] / matA[j][j]
     if LU is True: 
-        return elementryInverse(I, i, j)
+        return (matMultiply(I, matA),elementryInverse(I, i, j))
     return (matMultiply(I, matA), matMultiply(I, result))
 
 def makePivotOne(i, matA, result, LU = False):
@@ -168,22 +170,11 @@ def startMatrixCalculation(matA, result):
 
 # _______________________________________________________________
 
-
 Q = [[1, 3, 5, 9],
      [1, 12, 1, 7],
      [4, 13, 9, 7],
      [5, 2, 3, 9]]
 
-A = [[1, 11, 3],
-     [6, 4, 5],
-     [1, 8, 9]]
-
-B = [[11],[5],[4]]
-
 C = [[11],[5],[4], [13]]
 
-# print(startMatrixCalculation(A, B))
-matA, result = makeUpperTriangular(Q, C)
-print(calcAnswer(matA, result))
-
-# makeUpperTriangular(pivoting(Q), C)
+print(startMatrixCalculation(Q, C))
