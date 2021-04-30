@@ -18,10 +18,7 @@ def main():
         choice = int(input("What is your choice: \n 1. Gauss Zaidel \n 2.Jacobi"))
         if choice == 1 or choice == 2:
             break
-
     print(options[choice])
-    print(dominantDiagonal(A))
-    print(dominantDiagonal(B))
 
 def matMultiply(matA, matB):
     # multiply from the left: A * B.
@@ -51,20 +48,28 @@ def isDominantDiagonal(matA):
 
 # def makeDominantDiagonal(matA):
 
+def changeColum(matA, colA, colB):
+    elementaryMat = buildElementary(matA, colA, colB)
+    return matMultiply(matA, elementaryMat)
 
 def changeRow(matA, rowA , rowB):
+    elementaryMat = buildElementary(matA, rowA, rowB)
+    return matMultiply(elementaryMat, matA)
+
+def buildElementary(mat, a = None, b = None):
+    # without a & b - Identity mat will be built.
     elementaryMat = []
-    for i in range(len(matA)):
+    for i in range(len(mat)):
         lineMat = []
-        for j in range(len(matA[i])):
+        for j in range(len(mat[i])):
              # (-1) because i / j starts from 0 
-            if i == rowA - 1:
-                if j == rowB - 1:
+            if a is not None and i == a - 1:
+                if j == b - 1:
                     lineMat.append(1)
                 else: 
                     lineMat.append(0)
-            elif i == rowB - 1:
-                if j == rowA - 1:
+            elif b is not None and i == b - 1:
+                if j == a - 1:
                     lineMat.append(1)
                 else:
                     lineMat.append(0)
@@ -74,6 +79,6 @@ def changeRow(matA, rowA , rowB):
                 else:
                     lineMat.append(0)
         elementaryMat.append(lineMat)
-    return matMultiply(elementaryMat, matA)
+    return elementaryMat
 
 main()
