@@ -1,7 +1,7 @@
 import copy
 
 def main():
-    A = [[20, 3, 5, 9],
+    A = [[2, 3, 5, 9],
      [1, 12, 1, 7],
      [4, 13, 39, 7],
      [5, 1, 1, 9]]
@@ -11,6 +11,8 @@ def main():
          [0, 4, 5]]
     
     result = [[2], [6], [5]]
+
+    result2= [[2], [6], [5], [8]]
 
     options = {
         # should be functions instead.
@@ -22,7 +24,13 @@ def main():
         choice = int(input("What is your choice: \n 1. Gauss Zaidel \n 2.Jacobi\n"))
         if choice == 1 or choice == 2:
             break
-    options[choice](B,result)
+    if(isDominantDiagonal(A)):
+        options[choice](A,result2)
+    else:
+        # makeDominantDiagonal(A)
+        print("Although the matrix has no dominant diagonal...")
+        options[choice](A,result2)
+
     
 
 def matMultiply(matA, matB):
@@ -104,7 +112,11 @@ def jacobi(matA, result, epsilion = 0.00001 ):
                 if j != i:
                     rowSum += matA[i][j] * R1[j][0]
             R2[i][0] = ((-rowSum + result[i][0]) / matA[i][i])
-        if(checkEpsilion(R1, R2, epsilion)):
+        if(checkDifference(R1, R2, epsilion)):
+            break
+        if(not checkDifference(R1, R2, iteration * 10)):
+            print("The matirx has no dominant diagonal.")
+            print("Jacobi will not give a proper answer!")
             break
         R1 = copy.deepcopy(R2)
 
@@ -124,11 +136,15 @@ def gaussZaidel(matA, result, epsilion = 0.00001):
                 if j != i:
                     rowSum += matA[i][j] * R2[j][0]
             R2[i][0] = ((-rowSum + result[i][0]) / matA[i][i])
-        if(checkEpsilion(R1, R2, epsilion)):
+        if(checkDifference(R1, R2, epsilion)):
+            break
+        if(not checkDifference(R1, R2, iteration * 10)):
+            print("The matirx has no dominant diagonal.")
+            print("Gauss Zaidel will not give a proper answer!")
             break
         R1 = copy.deepcopy(R2)
 
-def checkEpsilion(R1, R2, epsilion):
+def checkDifference(R1, R2, epsilion):
     for i in range(len(R1)):
         if abs(abs(R2[i][0]) - abs(R1[i][0])) > epsilion:
             return False
