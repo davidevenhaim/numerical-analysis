@@ -1,3 +1,5 @@
+import copy
+
 def main():
     A = [[20, 3, 5, 9],
      [1, 12, 1, 7],
@@ -12,17 +14,15 @@ def main():
 
     options = {
         # should be functions instead.
-        1: "Gauss Zaidel",
-        2: "Jacboi"
+        1: lambda matA, result, epsilion = 0.00001: gaussZaidel(matA, result, epsilion),
+        2: lambda matA, result, epsilion = 0.00001: jacobi(matA, result, epsilion),
     }
     # do-while Python implementation.
-    # while True:
-    #     choice = int(input("What is your choice: \n 1. Gauss Zaidel \n 2.Jacobi"))
-    #     if choice == 1 or choice == 2:
-    #         break
-    # print(options[choice])
-    print(B)
-    # jacobi(B, result)
+    while True:
+        choice = int(input("What is your choice: \n 1. Gauss Zaidel \n 2.Jacobi\n"))
+        if choice == 1 or choice == 2:
+            break
+    options[choice](B,result)
     
 
 def matMultiply(matA, matB):
@@ -90,25 +90,47 @@ def buildElementary(mat, a = None, b = None):
 
 def jacobi(matA, result, epsilion = 0.00001 ):
     R1 = []
+    iteration = 0
     for i in range(len(matA)):
         R1.append([0])
+    print("Jacobi Method:\n")
     while True:
-        print(R1)
-        R2 = R1[:]
+        print("Iteration number: ", iteration, " results -> " , R1)
+        iteration += 1
+        R2 = copy.deepcopy(R1)
         for i in range(len(matA)):
             rowSum = 0
             for j in range(len(matA[i])):
                 if j != i:
                     rowSum += matA[i][j] * R1[j][0]
             R2[i][0] = ((-rowSum + result[i][0]) / matA[i][i])
-            if(checkEpsilion(R1, R2, epsilion)):
-                break
-            R1 = R2[:]
-            print(R2)
+        if(checkEpsilion(R1, R2, epsilion)):
+            break
+        R1 = copy.deepcopy(R2)
+
+def gaussZaidel(matA, result, epsilion = 0.00001):
+    R1 = []
+    iteration = 0
+    for i in range(len(matA)):
+        R1.append([0])
+    print("Gauss-Zaidel Method:\n")
+    while True:
+        print("Iteration number: ", iteration, " results -> " , R1)
+        iteration += 1
+        R2 = copy.deepcopy(R1)
+        for i in range(len(matA)):
+            rowSum = 0
+            for j in range(len(matA[i])):
+                if j != i:
+                    rowSum += matA[i][j] * R2[j][0]
+            R2[i][0] = ((-rowSum + result[i][0]) / matA[i][i])
+        if(checkEpsilion(R1, R2, epsilion)):
+            break
+        R1 = copy.deepcopy(R2)
 
 def checkEpsilion(R1, R2, epsilion):
     for i in range(len(R1)):
-        if abs(R2[i][0]) - abs(R1[i][0]) > epsilion:
+        if abs(abs(R2[i][0]) - abs(R1[i][0])) > epsilion:
             return False
     return True
 
