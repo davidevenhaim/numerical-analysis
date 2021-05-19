@@ -3,41 +3,71 @@ import sympy as sp
 
 x = sp.symbols("x")
 
-def Bisection_Method(f, pStart, pEnd, epsilion = 0.0001):
-    print("Good day")
+
+def Bisection_Method(f, fTag, pStart, pEnd, section=0.1, epsilion=0.00000000001):
+    range = findSuspectPoint(f, pStart, pEnd, section)
+    answers = []
+    while range:
+        # pStart = range[1]
+        answers.append(bisection(f, range[0], range[1], epsilion))
+        range = findSuspectPoint(f, range[1], pEnd, section)
+
+    range = findSuspectPoint(fTag, pStart, pEnd, section)
+    while range:
+        pStart = range[1]
+        c = (bisection(fTag, range[0], range[1], epsilion))
+        print("c is: ", c)
+        if abs(f(c)) < epsilion:
+            answers.append(c)
+        range = findSuspectPoint(fTag, pStart, pEnd, section)
+    print(answers)
 
 
-def Newton_Raphson(f, pStart, pEnd, epsilion = 0.0001):
+def bisection(f, a, b, epsilion):
+    i = 0
+    while (b - a) > epsilion:
+        i += 1
+        c = (a + b) / 2
+        if f(a) * f(c) > 0:
+            a = c
+        else:
+            b = c
+        # print("Iteration number: ", i, "f(a) = ", f(a), " ---- f(b) = ", f(b), " ---- f(c) = ", f(c), " ---- a = ", a, " ----- b = ", b, " ---- c = ", c)
+    return c
+
+
+def Newton_Raphson(f, fTag, pStart, pEnd, section=0.1, epsilion=0.0001):
     print("I said good day")
 
 
-def secant_method(f, pStart, pEnd, epsilion = 0.0001):
+def secant_method(f, fTag, pStart, pEnd, section=0.1, epsilion=0.0001):
     print("good day")
+
 
 def findSuspectPoint(f, pStart, pEnd, section):
     x = pStart + section
     while x < pEnd:
-        sign = (f(x - section) > 0)
-        if (f(x) > 0) != sign:
+        if (f(x) * f(x - section)) < 0:
             return x - section, x
         x += section
+    return False
 
 
 
 
 def main():
-    polinom = x
+    polinom = x**4+x**3-3*x**2
     derivative = sp.diff(polinom, x)
+    derivative = sp.lambdify(x, derivative)
     polinom = sp.lambdify(x, polinom)
+    pStart = -2.5
+    pEnd = 1.9
 
     # print(polinom(1))
     # print(derivative)
 
-    pStart = -2
-    pEnd = 2
-    section = 0.1
 
-    print(findSuspectPoint(polinom, pStart, pEnd, section))
+    Bisection_Method(polinom, derivative, pStart, pEnd)
 
     while True:
         choice = int(input(
