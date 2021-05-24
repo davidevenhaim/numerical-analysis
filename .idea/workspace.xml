@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="a144e072-1c34-4368-a42a-44f21952671c" name="Default Changelist" comment="HW4 - final commit.&#10;everything works as excpected.">
+    <list default="true" id="a144e072-1c34-4368-a42a-44f21952671c" name="Default Changelist" comment="removed comments and fixed printing.">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/hw4.py" beforeDir="false" afterPath="$PROJECT_DIR$/hw4.py" afterDir="false" />
     </list>
@@ -141,7 +141,14 @@
       <option name="project" value="LOCAL" />
       <updated>1621584924630</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="removed comments and fixed printing.">
+      <created>1621850363910</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1621850363910</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -160,6 +167,7 @@
     <MESSAGE value="finding suspect sections in functions." />
     <MESSAGE value="Bisection Method works." />
     <MESSAGE value="HW4 - final commit.&#10;everything works as excpected." />
-    <option name="LAST_COMMIT_MESSAGE" value="HW4 - final commit.&#10;everything works as excpected." />
+    <MESSAGE value="removed comments and fixed printing." />
+    <option name="LAST_COMMIT_MESSAGE" value="removed comments and fixed printing." />
   </component>
 </project>

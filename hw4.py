@@ -26,7 +26,7 @@ def Bisection_Method(f, a, b, epsilion=EPSILION):
         else:
             b = c
         iterations += 1
-    return c, iterations
+    return [c, iterations]
 
 
 def Newton_Raphson(f, fTag, a, b, epsilion=EPSILION):
@@ -41,7 +41,7 @@ def Newton_Raphson(f, fTag, a, b, epsilion=EPSILION):
         x1 = x0-(f(x0)/fTag(x0))
         x0 = temp
         iteration += 1
-    return x1, iteration
+    return [x1, iteration]
 
 
 def secant_method(f, a, b, epsilion=EPSILION):
@@ -57,7 +57,7 @@ def secant_method(f, a, b, epsilion=EPSILION):
         x0 = x1
         x1 = temp
         iteration += 1
-    return x1, iteration
+    return [x1, iteration]
 
 
 def find_suspect_point(f, pStart, pEnd, section=SECTION):
@@ -67,7 +67,7 @@ def find_suspect_point(f, pStart, pEnd, section=SECTION):
         i += 1
         # print("Iteration number: ", i, " ---- x = ", x, " --- f(x) = ", f(x))
         if (f(x) * f(x - section)) < 0:
-            return x - section, x
+            return x - section, x, i
         x += section
     return False
 
@@ -90,6 +90,7 @@ def start_calc(f, fTag, pStart, pEnd, method, section=SECTION, epsilion=EPSILION
         if method == 3:
             root = secant_method(fx, area[0], area[1], epsilion)
         if root is not None:
+            root[1] += area[2]
             answers.append(root)
         area = find_suspect_point(fx, area[1], pEnd, section)
 
@@ -104,13 +105,14 @@ def start_calc(f, fTag, pStart, pEnd, method, section=SECTION, epsilion=EPSILION
             root = secant_method(fTagx, area[0], area[1], epsilion)
         if root is not None:
             if abs(fx(root[0])) < epsilion:
+                root[1] += area[2]
                 answers.append((abs(root[0]), root[1]))
         area = find_suspect_point(fTagx, area[1], pEnd, section)
 
     print("\n_________________")
     print("Using", methodName, "method:")
     for i in range(len(answers)):
-        print("The", i + 1, "root is:", "%.4f" % answers[i][0], "and the number of iterations are:", answers[i][1])
+        print("The", i + 1, "root is:", "%.3f" % answers[i][0], "\nThe number of iterations to find the answer are:", answers[i][1])
     print("_________________ \n")
 
 
