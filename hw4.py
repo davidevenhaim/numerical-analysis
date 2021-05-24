@@ -35,7 +35,7 @@ def Newton_Raphson(f, fTag, a, b, epsilion=EPSILION):
     iteration = 0
     while abs(x1-x0) > epsilion:
         if fTag(x0) == 0:
-            print("cant divided by zero")
+            print("cant divide by zero")
             break
         temp = x1
         x1 = x0-(f(x0)/fTag(x0))

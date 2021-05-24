@@ -1,12 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="a144e072-1c34-4368-a42a-44f21952671c" name="Default Changelist" comment="Bisection Method works.">
-      <change afterPath="$PROJECT_DIR$/last projects/main.py" afterDir="false" />
+    <list default="true" id="a144e072-1c34-4368-a42a-44f21952671c" name="Default Changelist" comment="HW4 - final commit.&#10;everything works as excpected.">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/hw2.py" beforeDir="false" afterPath="$PROJECT_DIR$/last projects/hw2.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/hw4.py" beforeDir="false" afterPath="$PROJECT_DIR$/hw4.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/last projects/hw1.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -137,7 +134,14 @@
       <option name="project" value="LOCAL" />
       <updated>1621445158760</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="HW4 - final commit.&#10;everything works as excpected.">
+      <created>1621584924630</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1621584924630</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -150,10 +154,12 @@
         </entry>
       </map>
     </option>
+    <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="finding suspect sections in functions." />
     <MESSAGE value="Bisection Method works." />
-    <option name="LAST_COMMIT_MESSAGE" value="Bisection Method works." />
+    <MESSAGE value="HW4 - final commit.&#10;everything works as excpected." />
+    <option name="LAST_COMMIT_MESSAGE" value="HW4 - final commit.&#10;everything works as excpected." />
   </component>
 </project>
