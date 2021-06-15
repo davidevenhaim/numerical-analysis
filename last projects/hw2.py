@@ -5,31 +5,31 @@ def main():
      [1, 12, 1, 7],
      [4, 13, 39, 7],
      [5, 1, 1, 9]]
-    
-    B = [[4, 2, 0],
-         [2, 10, 4],
-         [0, 4, 5]]
-    
-    result = [[2], [6], [5]]
 
-    result2= [[2], [6], [5], [8]]
+    B = [[10, 8, 1],
+         [4, 10, -5],
+         [5, 1, 10]]
+    
+    result = [[-7], [2], [1.5]]
+
+    result2 = [[2], [6], [5], [8]]
 
     options = {
         # should be functions instead.
-        1: lambda matA, result, epsilion = 0.00001: gaussZaidel(matA, result, epsilion),
-        2: lambda matA, result, epsilion = 0.00001: jacobi(matA, result, epsilion),
+        1: lambda matA, result, epsilion = 0.000001: gaussZaidel(matA, result, epsilion),
+        2: lambda matA, result, epsilion = 0.000001: jacobi(matA, result, epsilion),
     }
     # do-while Python implementation.
     while True:
         choice = int(input("What is your choice: \n 1. Gauss Zaidel \n 2.Jacobi\n"))
         if choice == 1 or choice == 2:
             break
-    if(isDominantDiagonal(A)):
-        options[choice](A,result2)
+    if(isDominantDiagonal(B)):
+        options[choice](B, result)
     else:
         # makeDominantDiagonal(A)
         print("Although the matrix has no dominant diagonal...")
-        options[choice](A,result2)
+        options[choice](B, result)
 
     
 
@@ -96,7 +96,7 @@ def buildElementary(mat, a = None, b = None):
         elementaryMat.append(lineMat)
     return elementaryMat
 
-def jacobi(matA, result, epsilion = 0.00001 ):
+def jacobi(matA, result, epsilion = 0.000001 ):
     R1 = []
     iteration = 0
     for i in range(len(matA)):
@@ -119,8 +119,9 @@ def jacobi(matA, result, epsilion = 0.00001 ):
             print("Jacobi will not give a proper answer!")
             break
         R1 = copy.deepcopy(R2)
+        return R1
 
-def gaussZaidel(matA, result, epsilion = 0.00001):
+def gaussZaidel(matA, result, epsilion = 0.000001):
     R1 = []
     iteration = 0
     for i in range(len(matA)):

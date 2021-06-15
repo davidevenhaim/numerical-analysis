@@ -1,6 +1,6 @@
 import sympy as sp
 import numpy as np
-
+import math
 x = sp.symbols("x")
 
 METHODS = ["Bisection", "Newton Raphson", "Secant"]
@@ -64,7 +64,7 @@ def find_suspect_point(f, pStart, pEnd, section=SECTION):
     x = pStart + section
     i = 0
     while x < pEnd:
-        i += 1
+        # i += 1
         # print("Iteration number: ", i, " ---- x = ", x, " --- f(x) = ", f(x))
         if (f(x) * f(x - section)) < 0:
             return x - section, x, i
@@ -118,7 +118,9 @@ def start_calc(f, fTag, pStart, pEnd, method, section=SECTION, epsilion=EPSILION
 
 def main():
     f = x ** 4 + x ** 3 - 3 * x ** 2
+    f2 = math.sin(x ** 4 + 5 * x - 6) / 2 * math.exp() ** -2 * x + 5
     fTag = sp.diff(f, x)
+    f2Tag = sp.diff(f2, x)
     pStart = -2.5
     pEnd = 1.9
 
@@ -133,7 +135,8 @@ def main():
         if method == 4:
             print("Good day")
             break
-        start_calc(f, fTag, pStart, pEnd, method)
+        start_calc(f2, f2Tag, pStart, pEnd, method)
+
 
 
 main()
